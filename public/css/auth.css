@@ -1,0 +1,19 @@
+#login {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e3e3e3;
+}
+#login form {
+  margin-top: -5rem;
+}
+#login .form-control {
+  border-radius: 0;
+}
+#login #logo {
+  text-align: center;
+}
+#login button {
+  border-radius: 0 !important;
+}

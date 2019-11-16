@@ -1,18 +1,18 @@
 <?php
-class Posts extends Controller
+class Feeds extends Controller
 {
-    private $post;
+    private $feed;
 
     public function __construct()
     {
-        $this->post = $this->model('post');
+        $this->feed = $this->model('feed');
     }
 
     public function index()
     {
         header("Content-Type: application/json");
         header("Access-Control-Allow-Origin: *");
-        echo json_encode($this->post->fetchAll());
+        echo json_encode($this->feed->fetchAll());
     }
 
     public function store()
@@ -37,7 +37,7 @@ class Posts extends Controller
             header("Content-Type: application/json");
 
             if (empty($data["title_error"]) && empty($data["content_error"])) {
-                echo json_encode($this->post->store($data, $this->model('photo')));
+                echo json_encode($this->feed->store($data, $this->model('photo')));
             } else {
                 echo json_encode($data);
             }
@@ -50,7 +50,7 @@ class Posts extends Controller
     {
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json");
-        echo json_encode($this->post->fetch($id));
+        echo json_encode($this->feed->fetch($id));
     }
 
 
@@ -77,7 +77,7 @@ class Posts extends Controller
             header("Content-Type: application/json");
 
             if (empty($data["title_error"]) && empty($data["content_error"])) {
-                echo json_encode($this->post->update($id, $data, $this->model('photo')));
+                echo json_encode($this->feed->update($id, $data, $this->model('photo')));
             } else {
                 echo json_encode($data);
             }
@@ -91,7 +91,7 @@ class Posts extends Controller
         if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
             header("Access-Control-Allow-Origin: *");
             header("Content-Type: application/json");
-            echo json_encode($this->post->destroy($id, $this->model('photo')));
+            echo json_encode($this->feed->destroy($id, $this->model('photo')));
         } else {
             redirect("/");
         }
