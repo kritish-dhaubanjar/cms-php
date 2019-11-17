@@ -32,4 +32,14 @@ class User
             return false;
         }
     }
+
+    public function changePassword($password)
+    {
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $this->db->query("UPDATE users SET password=:password WHERE id=:id");
+        $this->db->bindValue(':password', $password);
+        $this->db->bindValue(':id', $_SESSION["id"]);
+        $this->db->execute();
+        return ($this->db->rowCount() > 0);
+    }
 }

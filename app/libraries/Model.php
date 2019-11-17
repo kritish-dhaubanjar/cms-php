@@ -33,7 +33,7 @@ class Model
 
     public function fetchAll()
     {
-        $this->db->query("SELECT * FROM " . $this->database);
+        $this->db->query("SELECT * FROM " . $this->database . " ORDER BY id DESC");
         $rows = $this->db->fetchAll();
         $rowCount = $this->db->rowCount();
 
@@ -69,8 +69,9 @@ class Model
         $this->db->bindValue(':content', $data["content"]);
         $this->db->execute();
         $id = $this->db->lastInsertId();
+        $rowCount = $this->db->rowCount();
         $photoModel->store($this->class, $id, null);
-        return $this->db->rowCount() > 0 ? array('status' => 200) : array('status' => 500);
+        return $rowCount > 0 ? array('status' => 200) : array('status' => 500);
     }
 
     public function update($id, $data, $photoModel)
@@ -80,10 +81,9 @@ class Model
         $this->db->bindValue(':content', $data["content"]);
         $this->db->bindValue(':id', $id);
         $this->db->execute();
-        $rowCount = $this->db->rowCount();
 
-        $rowCount += $photoModel->destroy($this->class, $id, $data["items"]);
-        $rowCount += $photoModel->store($this->class, $id, null);
-        return $rowCount > 0 ? array('status' => 200) : array('status' => 500);
+        $photoModel->destroy($this->class, $id, $data["items"]);
+        $photoModel->store($this->class, $id, null);
+        return array('status' => 200);
     }
 }

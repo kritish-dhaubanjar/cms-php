@@ -1,23 +1,26 @@
 <?php
-class Feeds extends Controller
+class Vacancies extends Controller
 {
-    private $feed;
+    private $vacancy;
 
     public function __construct()
     {
-        $this->feed = $this->model('feed');
+        $this->vacancy = $this->model('vacancy');
     }
 
     public function index()
     {
         header("Content-Type: application/json");
         header("Access-Control-Allow-Origin: *");
-        echo json_encode($this->feed->fetchAll());
+        echo json_encode($this->vacancy->fetchAll());
         return;
     }
 
     public function store()
     {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
+
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isAuth()) {
 
             // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -34,11 +37,9 @@ class Feeds extends Controller
             if (empty($data["content"]))
                 $data["content_error"] = true;
 
-            header("Access-Control-Allow-Origin: *");
-            header("Content-Type: application/json");
-
             if (empty($data["title_error"]) && empty($data["content_error"])) {
-                echo json_encode($this->feed->store($data, $this->model('photo')));
+                echo json_encode($this->vacancy->store($data));
+                return;
             } else {
                 echo json_encode($data);
                 return;
@@ -52,18 +53,22 @@ class Feeds extends Controller
     {
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json");
-        echo json_encode($this->feed->fetch($id));
+        echo json_encode($this->vacancy->fetch($id));
         return;
     }
 
 
     public function update($id)
     {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
+
         if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
             // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
                 "title" => trim($_POST["title"]),
                 "content" => trim($_POST["content"]),
+                "complete" => trim($_POST["complete"]),
                 "items" => $_POST["items"],
                 "title_error" => false,
                 "content_error" => false,
@@ -76,11 +81,8 @@ class Feeds extends Controller
             if (empty($data["content"]))
                 $data["content_error"] = true;
 
-            header("Access-Control-Allow-Origin: *");
-            header("Content-Type: application/json");
-
             if (empty($data["title_error"]) && empty($data["content_error"])) {
-                echo json_encode($this->feed->update($id, $data, $this->model('photo')));
+                echo json_encode($this->vacancy->update($id, $data));
                 return;
             } else {
                 echo json_encode($data);
@@ -93,10 +95,10 @@ class Feeds extends Controller
 
     public function destroy($id)
     {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
         if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
-            header("Access-Control-Allow-Origin: *");
-            header("Content-Type: application/json");
-            echo json_encode($this->feed->destroy($id, $this->model('photo')));
+            echo json_encode($this->vacancy->destroy($id));
             return;
         } else {
             return redirect('/');

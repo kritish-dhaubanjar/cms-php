@@ -13,10 +13,14 @@ class Posts extends Controller
         header("Content-Type: application/json");
         header("Access-Control-Allow-Origin: *");
         echo json_encode($this->post->fetchAll());
+        return;
     }
 
     public function store()
     {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
+
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isAuth()) {
 
             // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -33,16 +37,15 @@ class Posts extends Controller
             if (empty($data["content"]))
                 $data["content_error"] = true;
 
-            header("Access-Control-Allow-Origin: *");
-            header("Content-Type: application/json");
-
             if (empty($data["title_error"]) && empty($data["content_error"])) {
                 echo json_encode($this->post->store($data, $this->model('photo')));
+                return;
             } else {
                 echo json_encode($data);
+                return;
             }
         } else {
-            redirect("/");
+            return redirect('/');
         }
     }
 
@@ -51,11 +54,15 @@ class Posts extends Controller
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json");
         echo json_encode($this->post->fetch($id));
+        return;
     }
 
 
     public function update($id)
     {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
+
         if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
             // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
@@ -73,27 +80,27 @@ class Posts extends Controller
             if (empty($data["content"]))
                 $data["content_error"] = true;
 
-            header("Access-Control-Allow-Origin: *");
-            header("Content-Type: application/json");
-
             if (empty($data["title_error"]) && empty($data["content_error"])) {
                 echo json_encode($this->post->update($id, $data, $this->model('photo')));
+                return;
             } else {
                 echo json_encode($data);
+                return;
             }
         } else {
-            redirect("/");
+            return redirect('/');
         }
     }
 
     public function destroy($id)
     {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
         if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
-            header("Access-Control-Allow-Origin: *");
-            header("Content-Type: application/json");
             echo json_encode($this->post->destroy($id, $this->model('photo')));
+            return;
         } else {
-            redirect("/");
+            return redirect('/');
         }
     }
 }

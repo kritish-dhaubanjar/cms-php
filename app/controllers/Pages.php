@@ -24,7 +24,7 @@ class Pages extends Controller
 
     public function login()
     {
-        if ($_SERVER["REQUEST_METHOD"] == 'POST') {
+        if ($_SERVER["REQUEST_METHOD"] == 'POST' && !isAuth()) {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $credentials = array(
                 'email' => $_POST['email'],
@@ -55,14 +55,63 @@ class Pages extends Controller
             } else {
                 return $this->view('Home', $credentials);
             }
+        } else {
+            return redirect('/');
         }
     }
 
     public function logout()
     {
-        if ($_SERVER["REQUEST_METHOD"] == 'POST') {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
+        if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
             unset($_SESSION['id']);
             session_destroy();
+            echo json_encode(array(
+                "status" => 200
+            ));
+            return;
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function changePassword()
+    {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
+        if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $credentials = array(
+                'password' => $_POST['password'],
+                'confirm_password' => $_POST['confirm_password'],
+                'password_err' => '',
+                'confirm_password_err' => ''
+            );
+
+
+            if (empty($credentials['password'])) {
+                $credentials['password_err'] = 'Please provide a new password.';
+            }
+            if (empty($credentials['confirm_password'])) {
+                $credentials['confirm_password_err'] = 'Please confirm new password.';
+            }
+
+            if (empty($credentials['password_err']) && empty($credentials['confirm_password_err'])) {
+
+                if ($credentials['password'] == $credentials['confirm_password']) {
+                    if ($this->user->changePassword($credentials['password'])) {
+                        echo json_encode(array(
+                            'status' => 200
+                        ));
+                        return;
+                    }
+                }
+            } else {
+                echo json_encode($credentials);
+                return;
+            }
+        } else {
             return redirect('/');
         }
     }

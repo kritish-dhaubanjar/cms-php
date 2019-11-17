@@ -1,23 +1,26 @@
 <?php
-class Feeds extends Controller
+class Projects extends Controller
 {
-    private $feed;
+    private $project;
 
     public function __construct()
     {
-        $this->feed = $this->model('feed');
+        $this->project = $this->model('project');
     }
 
     public function index()
     {
         header("Content-Type: application/json");
         header("Access-Control-Allow-Origin: *");
-        echo json_encode($this->feed->fetchAll());
+        echo json_encode($this->project->fetchAll());
         return;
     }
 
     public function store()
     {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
+
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isAuth()) {
 
             // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -34,11 +37,9 @@ class Feeds extends Controller
             if (empty($data["content"]))
                 $data["content_error"] = true;
 
-            header("Access-Control-Allow-Origin: *");
-            header("Content-Type: application/json");
-
             if (empty($data["title_error"]) && empty($data["content_error"])) {
-                echo json_encode($this->feed->store($data, $this->model('photo')));
+                echo json_encode($this->project->store($data, $this->model('photo')));
+                return;
             } else {
                 echo json_encode($data);
                 return;
@@ -52,13 +53,16 @@ class Feeds extends Controller
     {
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json");
-        echo json_encode($this->feed->fetch($id));
+        echo json_encode($this->project->fetch($id));
         return;
     }
 
 
     public function update($id)
     {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
+
         if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
             // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
@@ -76,11 +80,8 @@ class Feeds extends Controller
             if (empty($data["content"]))
                 $data["content_error"] = true;
 
-            header("Access-Control-Allow-Origin: *");
-            header("Content-Type: application/json");
-
             if (empty($data["title_error"]) && empty($data["content_error"])) {
-                echo json_encode($this->feed->update($id, $data, $this->model('photo')));
+                echo json_encode($this->project->update($id, $data, $this->model('photo')));
                 return;
             } else {
                 echo json_encode($data);
@@ -93,10 +94,10 @@ class Feeds extends Controller
 
     public function destroy($id)
     {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
         if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
-            header("Access-Control-Allow-Origin: *");
-            header("Content-Type: application/json");
-            echo json_encode($this->feed->destroy($id, $this->model('photo')));
+            echo json_encode($this->project->destroy($id, $this->model('photo')));
             return;
         } else {
             return redirect('/');

@@ -15,6 +15,7 @@ class Photos extends Controller
         header("Content-Type: application/json");
         header("Access-Control-Allow-Origin: *");
         echo json_encode($this->photo->fetchAll($this->class));
+        return;
     }
 
     public function show($id)
@@ -22,14 +23,14 @@ class Photos extends Controller
         header("Content-Type: application/json");
         header("Access-Control-Allow-Origin: *");
         echo json_encode($this->photo->fetch($id, $this->class));
+        return;
     }
 
     public function store()
     {
+        header("Content-Type: application/json");
+        header("Access-Control-Allow-Origin: *");
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isAuth()) {
-            header("Content-Type: application/json");
-            header("Access-Control-Allow-Origin: *");
-
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
@@ -46,11 +47,13 @@ class Photos extends Controller
             if (empty($data['title_error']) && empty($data['image_error'])) {
                 $this->photo->store($this->class, null, $data['title']);
                 echo json_encode(['status' => 200]);
+                return;
             } else {
                 echo json_encode($data);
+                return;
             }
         } else {
-            redirect('/');
+            return redirect('/');
         }
     }
 
@@ -60,12 +63,15 @@ class Photos extends Controller
             header("Content-Type: application/json");
             header("Access-Control-Allow-Origin: *");
 
-            if ($this->photo->_destroy($id) > 0)
+            if ($this->photo->_destroy($id) > 0) {
                 echo (json_encode(['status' => 200]));
-            else
+                return;
+            } else {
                 echo (json_encode(['status' => 500]));
+                return;
+            }
         } else {
-            redirect('/');
+            return redirect('/');
         }
     }
     public function update($id)
@@ -87,11 +93,13 @@ class Photos extends Controller
             if (empty($data['title_error'])) {
                 $this->photo->update($id, $data);
                 echo json_encode(['status' => 200]);
+                return;
             } else {
                 echo json_encode($data);
+                return;
             }
         } else {
-            redirect('/');
+            return redirect('/');
         }
     }
 }

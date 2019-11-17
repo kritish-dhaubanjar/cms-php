@@ -52,8 +52,6 @@ class Photo extends Model
                 }
             }
         }
-
-        return $this->db->rowCount();
     }
 
     public function update($id, $data)

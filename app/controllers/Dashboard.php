@@ -13,5 +13,6 @@ class Pages extends Controller
     {
 
         $this->page->counter();
+        return;
     }
 }
