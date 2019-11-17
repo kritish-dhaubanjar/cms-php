@@ -23,8 +23,18 @@ class Model
         $this->db->query("SELECT * FROM " . $this->database ." ORDER BY id DESC LIMIT :offset, :limit");
         $this->db->bindValue(':limit', $limit);
         $this->db->bindValue(':offset', ($page-1)*$limit);
-        $data["data"] = $this->db->fetchAll();
+        $rows = $this->db->fetchAll();
 
+        $temp = [];
+
+        foreach ($rows as $row) {
+            $this->db->query("SELECT * FROM photos WHERE _id=:id");
+            $this->db->bindValue(":id", $row->id);
+            $row->photos = $this->db->fetchAll();
+            array_push($temp, $row);
+        }
+
+        $data["data"] = $temp;
         $data["meta"]["total_pages"] = $pages;
         $data["meta"]["prev_page"] = $page == 1 ? null : $page-1; 
         $data["meta"]["current_page"] = (int)$page;
