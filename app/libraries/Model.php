@@ -12,6 +12,26 @@ class Model
         $this->database = lcfirst($class) . 's';
     }
 
+    public function paginate($page){
+        $limit = 5;
+
+        $this->db->query("SELECT count(id) AS count FROM " . $this->database);
+        $total = $this->db->fetch();
+
+        $pages = ceil($total->count / $limit);
+
+        $this->db->query("SELECT * FROM " . $this->database ." ORDER BY id DESC LIMIT :offset, :limit");
+        $this->db->bindValue(':limit', $limit);
+        $this->db->bindValue(':offset', ($page-1)*$limit);
+        $data["data"] = $this->db->fetchAll();
+
+        $data["meta"]["total_pages"] = $pages;
+        $data["meta"]["prev_page"] = $page == 1 ? null : $page-1; 
+        $data["meta"]["current_page"] = (int)$page;
+        $data["meta"]["next_page"] = $page == $pages ? null : $page+1; 
+        return $data;
+    }
+
     public function fetch($id)
     {
         $this->db->query("SELECT * FROM " . $this->database . " WHERE id=:id ORDER BY id DESC");

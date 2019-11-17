@@ -8,6 +8,13 @@ class Projects extends Controller
         $this->project = $this->model('project');
     }
 
+    public function page($page){
+        header("Content-Type: application/json");
+        header("Access-Control-Allow-Origin: *");
+        echo json_encode($this->project->paginate($page));
+        return;
+    }
+
     public function index()
     {
         header("Content-Type: application/json");

@@ -8,6 +8,13 @@ class Vacancies extends Controller
         $this->vacancy = $this->model('vacancy');
     }
 
+    public function page($page){
+        header("Content-Type: application/json");
+        header("Access-Control-Allow-Origin: *");
+        echo json_encode($this->vacancy->paginate($page));
+        return;
+    }
+
     public function index()
     {
         header("Content-Type: application/json");

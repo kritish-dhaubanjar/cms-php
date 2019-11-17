@@ -8,6 +8,13 @@ class Feeds extends Controller
         $this->feed = $this->model('feed');
     }
 
+    public function page($page){
+        header("Content-Type: application/json");
+        header("Access-Control-Allow-Origin: *");
+        echo json_encode($this->feed->paginate($page));
+        return;
+    }
+
     public function index()
     {
         header("Content-Type: application/json");
