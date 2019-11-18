@@ -6,28 +6,24 @@ class Projects extends Controller
     public function __construct()
     {
         $this->project = $this->model('project');
-    }
-
-    public function page($page){
         header("Content-Type: application/json");
         header("Access-Control-Allow-Origin: *");
+    }
+
+    public function page($page)
+    {
         echo json_encode($this->project->paginate($page));
         return;
     }
 
     public function index()
     {
-        header("Content-Type: application/json");
-        header("Access-Control-Allow-Origin: *");
         echo json_encode($this->project->fetchAll());
         return;
     }
 
     public function store()
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
-
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isAuth()) {
 
             // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -58,8 +54,6 @@ class Projects extends Controller
 
     public function show($id)
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
         echo json_encode($this->project->fetch($id));
         return;
     }
@@ -67,9 +61,6 @@ class Projects extends Controller
 
     public function update($id)
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
-
         if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
             // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
@@ -101,8 +92,6 @@ class Projects extends Controller
 
     public function destroy($id)
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
         if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
             echo json_encode($this->project->destroy($id, $this->model('photo')));
             return;

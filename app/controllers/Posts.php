@@ -6,28 +6,24 @@ class Posts extends Controller
     public function __construct()
     {
         $this->post = $this->model('post');
+        header('Content-Type: application/json');
+        header("Access-Control-Allow-Origin: *");
     }
 
-    public function page($page){
-        header("Content-Type: application/json");
-        header("Access-Control-Allow-Origin: *");
+    public function page($page)
+    {
         echo json_encode($this->post->paginate($page));
         return;
     }
 
     public function index()
     {
-        header("Content-Type: application/json");
-        header("Access-Control-Allow-Origin: *");
         echo json_encode($this->post->fetchAll());
         return;
     }
 
     public function store()
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
-
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isAuth()) {
 
             // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -58,8 +54,6 @@ class Posts extends Controller
 
     public function show($id)
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
         echo json_encode($this->post->fetch($id));
         return;
     }
@@ -67,9 +61,6 @@ class Posts extends Controller
 
     public function update($id)
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
-
         if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
             // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [

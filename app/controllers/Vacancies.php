@@ -5,29 +5,25 @@ class Vacancies extends Controller
 
     public function __construct()
     {
+        header("Content-Type: application/json");
+        header("Access-Control-Allow-Origin: *");
         $this->vacancy = $this->model('vacancy');
     }
 
-    public function page($page){
-        header("Content-Type: application/json");
-        header("Access-Control-Allow-Origin: *");
+    public function page($page)
+    {
         echo json_encode($this->vacancy->paginate($page));
         return;
     }
 
     public function index()
     {
-        header("Content-Type: application/json");
-        header("Access-Control-Allow-Origin: *");
         echo json_encode($this->vacancy->fetchAll());
         return;
     }
 
     public function store()
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
-
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isAuth()) {
 
             // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -58,8 +54,6 @@ class Vacancies extends Controller
 
     public function show($id)
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
         echo json_encode($this->vacancy->fetch($id));
         return;
     }
@@ -67,9 +61,6 @@ class Vacancies extends Controller
 
     public function update($id)
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
-
         if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
             // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
@@ -102,8 +93,6 @@ class Vacancies extends Controller
 
     public function destroy($id)
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
         if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
             echo json_encode($this->vacancy->destroy($id));
             return;

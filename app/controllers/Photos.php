@@ -8,28 +8,30 @@ class Photos extends Controller
     {
         $this->photo = $this->model('photo');
         $this->class = $class;
+        header("Content-Type: application/json");
+        header("Access-Control-Allow-Origin: *");
+    }
+
+    public function page($page)
+    {
+        echo json_encode($this->photo->paginate($page));
+        return;
     }
 
     public function index()
     {
-        header("Content-Type: application/json");
-        header("Access-Control-Allow-Origin: *");
         echo json_encode($this->photo->fetchAll($this->class));
         return;
     }
 
     public function show($id)
     {
-        header("Content-Type: application/json");
-        header("Access-Control-Allow-Origin: *");
         echo json_encode($this->photo->fetch($id, $this->class));
         return;
     }
 
     public function store()
     {
-        header("Content-Type: application/json");
-        header("Access-Control-Allow-Origin: *");
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isAuth()) {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
@@ -60,8 +62,6 @@ class Photos extends Controller
     public function destroy($id)
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isAuth()) {
-            header("Content-Type: application/json");
-            header("Access-Control-Allow-Origin: *");
 
             if ($this->photo->_destroy($id) > 0) {
                 echo (json_encode(['status' => 200]));
@@ -77,9 +77,6 @@ class Photos extends Controller
     public function update($id)
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isAuth()) {
-            header("Content-Type: application/json");
-            header("Access-Control-Allow-Origin: *");
-
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [

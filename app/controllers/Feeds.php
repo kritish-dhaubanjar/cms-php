@@ -6,19 +6,18 @@ class Feeds extends Controller
     public function __construct()
     {
         $this->feed = $this->model('feed');
+        header('Content-Type: application/json');
+        header("Access-Control-Allow-Origin: *");
     }
 
-    public function page($page){
-        header("Content-Type: application/json");
-        header("Access-Control-Allow-Origin: *");
+    public function page($page)
+    {
         echo json_encode($this->feed->paginate($page));
         return;
     }
 
     public function index()
     {
-        header("Content-Type: application/json");
-        header("Access-Control-Allow-Origin: *");
         echo json_encode($this->feed->fetchAll());
         return;
     }
@@ -41,9 +40,6 @@ class Feeds extends Controller
             if (empty($data["content"]))
                 $data["content_error"] = true;
 
-            header("Access-Control-Allow-Origin: *");
-            header("Content-Type: application/json");
-
             if (empty($data["title_error"]) && empty($data["content_error"])) {
                 echo json_encode($this->feed->store($data, $this->model('photo')));
             } else {
@@ -57,8 +53,6 @@ class Feeds extends Controller
 
     public function show($id)
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
         echo json_encode($this->feed->fetch($id));
         return;
     }
@@ -83,9 +77,6 @@ class Feeds extends Controller
             if (empty($data["content"]))
                 $data["content_error"] = true;
 
-            header("Access-Control-Allow-Origin: *");
-            header("Content-Type: application/json");
-
             if (empty($data["title_error"]) && empty($data["content_error"])) {
                 echo json_encode($this->feed->update($id, $data, $this->model('photo')));
                 return;
@@ -101,8 +92,6 @@ class Feeds extends Controller
     public function destroy($id)
     {
         if ($_SERVER["REQUEST_METHOD"] == 'POST' && isAuth()) {
-            header("Access-Control-Allow-Origin: *");
-            header("Content-Type: application/json");
             echo json_encode($this->feed->destroy($id, $this->model('photo')));
             return;
         } else {

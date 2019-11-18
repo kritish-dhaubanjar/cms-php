@@ -1,18 +1,20 @@
 <?php
 
-class Pages extends Controller
+class Dashboard extends Controller
 {
     private $page;
 
     public function __construct()
     {
         $this->page = $this->model('page');
+        header('Content-Type: application/json');
+        header("Access-Control-Allow-Origin: *");
     }
 
     public function index()
     {
 
-        $this->page->counter();
+        echo json_encode($this->page->counter());
         return;
     }
 }

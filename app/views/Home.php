@@ -17,7 +17,7 @@
         <div id="login">
             <form action="<?php echo URL ?>/pages/login" method="POST">
                 <div id="logo">
-                    <img src="<?php echo URL ?>/images/theGimmickBox.png" width="128px" />
+                    <img src="<?php echo URL ?>/dist/theGimmickBox.png" width="128px" />
                 </div>
                 <br>
                 <div class="form-group">
