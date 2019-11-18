@@ -28,7 +28,8 @@ class Model
         $temp = [];
 
         foreach ($rows as $row) {
-            $this->db->query("SELECT * FROM photos WHERE _id=:id");
+            $this->db->query("SELECT * FROM photos WHERE _id=:id AND class=:class");
+            $this->db->bindValue(":class", $this->class);
             $this->db->bindValue(":id", $row->id);
             $row->photos = $this->db->fetchAll();
             array_push($temp, $row);
@@ -52,7 +53,9 @@ class Model
 
         $data = [];
 
-        $this->db->query("SELECT * FROM photos WHERE _id=:id");
+        $this->db->query("SELECT * FROM photos WHERE _id=:id AND class=:class");
+        $this->db->bindValue(":class", $this->class);
+
         $this->db->bindValue(":id", $row->id);
         $row->photos = $this->db->fetchAll();
 
@@ -70,7 +73,8 @@ class Model
         $data = [];
 
         foreach ($rows as $row) {
-            $this->db->query("SELECT * FROM photos WHERE _id=:id");
+            $this->db->query("SELECT * FROM photos WHERE _id=:id AND class=:class");
+            $this->db->bindValue(":class", $this->class);
             $this->db->bindValue(":id", $row->id);
             $row->photos = $this->db->fetchAll();
             array_push($data, $row);
