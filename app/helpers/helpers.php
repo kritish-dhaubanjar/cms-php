@@ -24,3 +24,8 @@ function isAuth()
     }
     return false;
 }
+
+function isAdmin()
+{
+    return (isset($_SESSION["role"]) && !empty($_SESSION["role"]) && $_SESSION["role"] == "admin");
+}

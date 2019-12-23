@@ -1,6 +1,6 @@
 <?php
 
-class Post extends Model
+class Share extends Model
 {
 
     public function __construct()

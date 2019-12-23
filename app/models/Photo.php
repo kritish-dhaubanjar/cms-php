@@ -9,7 +9,8 @@ class Photo extends Model
         parent::__construct(__CLASS__);
     }
 
-    public function paginate($page){
+    public function paginate($page)
+    {
         $limit = 5;
 
         $this->db->query("SELECT count(id) AS count FROM photos WHERE class=:class");
@@ -21,14 +22,14 @@ class Photo extends Model
         $this->db->query("SELECT * FROM photos WHERE class=:class ORDER BY id DESC LIMIT :offset, :limit");
         $this->db->bindValue(':class', 'Photo');
         $this->db->bindValue(':limit', $limit);
-        $this->db->bindValue(':offset', ($page-1)*$limit);
+        $this->db->bindValue(':offset', ($page - 1) * $limit);
         $temp = $this->db->fetchAll();
 
         $data["data"] = $temp;
         $data["meta"]["total_pages"] = $pages;
-        $data["meta"]["prev_page"] = $page == 1 ? null : $page-1; 
-        $data["meta"]["current_page"] = (int)$page;
-        $data["meta"]["next_page"] = $page == $pages ? null : $page+1; 
+        $data["meta"]["prev_page"] = $page == 1 ? null : $page - 1;
+        $data["meta"]["current_page"] = (int) $page;
+        $data["meta"]["next_page"] = $page == $pages ? null : $page + 1;
         return $data;
     }
 

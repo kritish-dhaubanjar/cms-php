@@ -1,0 +1,17 @@
+.tns-controls button {
+  background-color: #ef6355;
+  color: #fff;
+  border: 0;
+  margin: 0 4px;
+  &:focus {
+    outline: none;
+  }
+}
+
+.tns-controls button:focus {
+  outline: none;
+}
+
+.tns-controls:focus {
+  outline: none;
+}

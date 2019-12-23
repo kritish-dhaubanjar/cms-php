@@ -1,8 +1,7 @@
 <?php
 
-class Post extends Model
+class Feedback extends Model
 {
-
     public function __construct()
     {
         parent::__construct(__CLASS__);

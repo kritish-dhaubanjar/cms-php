@@ -13,7 +13,7 @@
 <body>
     <?php
     if (!isAuth()) {
-        ?>
+    ?>
         <div id="login">
             <form action="<?php echo URL ?>/pages/login" method="POST">
                 <div id="logo">
@@ -41,10 +41,16 @@
             </form>
         </div>
     <?php
-    } else {
-        ?>
+    } else if (isAuth() && isAdmin()) {
+    ?>
         <div id="app"></div>
-        <script src="<?php echo URL ?>/js/build.js"></script>
+        <script src="<?php echo URL ?>/js/admin.js"></script>
+    <?php
+    } else if (isAuth() && !isAdmin()) {
+
+    ?>
+        <div id="app"></div>
+        <script src="<?php echo URL ?>/js/employee.js"></script>
     <?php
     }
     ?>

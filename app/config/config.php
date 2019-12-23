@@ -8,3 +8,6 @@ define("PORT", 3306);
 define("USER", "root");
 define("PASSWORD", "toor");
 define("DATABASE", "cms");
+
+define("HOSTMASTER", "kritish.dhaubanjar@gmail.com");
+define("FROM", "info@continentalhrd.com");
