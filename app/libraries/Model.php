@@ -12,7 +12,8 @@ class Model
         $this->database = lcfirst($class) . 's';
     }
 
-    public function paginate($page){
+    public function paginate($page)
+    {
         $limit = 5;
 
         $this->db->query("SELECT count(id) AS count FROM " . $this->database);
@@ -20,9 +21,9 @@ class Model
 
         $pages = ceil($total->count / $limit);
 
-        $this->db->query("SELECT * FROM " . $this->database ." ORDER BY id DESC LIMIT :offset, :limit");
+        $this->db->query("SELECT * FROM " . $this->database . " ORDER BY id DESC LIMIT :offset, :limit");
         $this->db->bindValue(':limit', $limit);
-        $this->db->bindValue(':offset', ($page-1)*$limit);
+        $this->db->bindValue(':offset', ($page - 1) * $limit);
         $rows = $this->db->fetchAll();
 
         $temp = [];
@@ -37,9 +38,9 @@ class Model
 
         $data["data"] = $temp;
         $data["meta"]["total_pages"] = $pages;
-        $data["meta"]["prev_page"] = $page == 1 ? null : $page-1; 
-        $data["meta"]["current_page"] = (int)$page;
-        $data["meta"]["next_page"] = $page == $pages ? null : $page+1; 
+        $data["meta"]["prev_page"] = $page == 1 ? null : $page - 1;
+        $data["meta"]["current_page"] = (int) $page;
+        $data["meta"]["next_page"] = $page == $pages ? null : $page + 1;
         return $data;
     }
 
@@ -61,7 +62,7 @@ class Model
 
         array_push($data, $row);
 
-        return $rowCount  > 0 ? $row : [];
+        return $rowCount  > 0 ? $row : null;
     }
 
     public function fetchAll()

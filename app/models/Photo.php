@@ -11,7 +11,7 @@ class Photo extends Model
 
     public function paginate($page)
     {
-        $limit = 5;
+        $limit = 12;
 
         $this->db->query("SELECT count(id) AS count FROM photos WHERE class=:class");
         $this->db->bindValue(':class', 'Photo');

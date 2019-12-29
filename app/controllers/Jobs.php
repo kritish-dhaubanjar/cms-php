@@ -167,18 +167,21 @@ class Jobs extends Controller
 
     public function filter()
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json");
-        $data = [
-            'keyword' => trim($_POST['keyword']),
-            'location' => trim($_POST['location']),
-            'industry' => trim($_POST['industry']),
-            'careerLevel' => trim($_POST['careerLevel']),
-            'offeredSalary' => trim($_POST['offeredSalary']),
-            'experience' => trim($_POST['experience'])
-        ];
+        if ($_SERVER["REQUEST_METHOD"] == 'POST') {
+            header("Access-Control-Allow-Origin: *");
+            header("Content-Type: application/json");
+            $data = [
+                'page' => trim($_POST['page']),
+                'keyword' => trim($_POST['keyword']),
+                'location' => trim($_POST['location']),
+                'industry' => trim($_POST['industry']),
+                'careerLevel' => trim($_POST['careerLevel']),
+                'offeredSalary' => trim($_POST['offeredSalary']),
+                'experience' => trim($_POST['experience'])
+            ];
 
-        echo json_encode($this->job->filter($data));
-        return;
+            echo json_encode($this->job->filter($data));
+            return;
+        }
     }
 }

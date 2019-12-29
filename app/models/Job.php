@@ -48,7 +48,24 @@ class Job extends Model
 
     public function filter($data)
     {
-        $this->db->query("SELECT * FROM jobs WHERE title LIKE :title AND location LIKE :location AND industry LIKE :industry AND careerLevel LIKE :careerLevel AND offeredSalary LIKE :offeredSalary AND experience LIKE :experience");
+        $limit = 10;
+
+        $this->db->query("SELECT count(id) AS count FROM jobs WHERE title LIKE :title AND location LIKE :location AND industry LIKE :industry AND careerLevel LIKE :careerLevel AND offeredSalary LIKE :offeredSalary AND experience LIKE :experience");
+
+        $this->db->bindValue(':title', '%' . $data['keyword'] . '%');
+        $this->db->bindValue(':location', '%' . $data['location'] . '%');
+        $this->db->bindValue(':industry', '%' . $data['industry'] . '%');
+        $this->db->bindValue(':careerLevel', '%' . $data['careerLevel'] . '%');
+        $this->db->bindValue(':offeredSalary', '%' . $data['offeredSalary'] . '%');
+        $this->db->bindValue(':experience', '%' . $data['experience'] . '%');
+
+        $total = $this->db->fetch();
+
+        $count = $total->count;
+
+        $this->db->query("SELECT * FROM jobs WHERE title LIKE :title AND location LIKE :location AND industry LIKE :industry AND careerLevel LIKE :careerLevel AND offeredSalary LIKE :offeredSalary AND experience LIKE :experience ORDER BY id DESC LIMIT :offset, :limit");
+        $this->db->bindValue(':limit', $limit);
+        $this->db->bindValue(':offset', ($data['page'] - 1) * $limit);
         $this->db->bindValue(':title', '%' . $data['keyword'] . '%');
         $this->db->bindValue(':location', '%' . $data['location'] . '%');
         $this->db->bindValue(':industry', '%' . $data['industry'] . '%');
@@ -56,6 +73,16 @@ class Job extends Model
         $this->db->bindValue(':offeredSalary', '%' . $data['offeredSalary'] . '%');
         $this->db->bindValue(':experience', '%' . $data['experience'] . '%');
         $result = $this->db->fetchAll();
-        return $result;
+
+        $pages = ceil($count / $limit);
+
+        $temp["data"] = $result;
+        $temp["meta"]["total_pages"] = $pages;
+        $temp["meta"]["prev_page"] = (int) $data['page'] == 1 ? null : $data['page'] - 1;
+        $temp["meta"]["current_page"] = (int) $data['page'];
+        $temp["meta"]["next_page"] = (int) $data['page'] == $pages ? null : $data['page'] + 1;
+        return $temp;
+
+        // return $result;
     }
 }
