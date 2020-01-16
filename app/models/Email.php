@@ -11,9 +11,13 @@ class Email
 
     public function fetchAll()
     {
-        $this->db->query('SELECT * FROM emails ORDER BY id DESC');
-        $this->db->execute();
-        return $this->db->fetchAll();
+        if (isAuth()) {
+            $this->db->query('SELECT * FROM emails ORDER BY id DESC');
+            $this->db->execute();
+            return $this->db->fetchAll();
+        } else {
+            return redirect('/');
+        }
     }
 
     public function store($data)
