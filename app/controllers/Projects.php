@@ -5,6 +5,7 @@ class Projects extends Controller
 
     public function __construct()
     {
+        apiMiddleware();
         $this->project = $this->model('project');
         header("Content-Type: application/json");
         header("Access-Control-Allow-Origin: *");

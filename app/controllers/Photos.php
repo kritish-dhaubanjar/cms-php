@@ -6,6 +6,7 @@ class Photos extends Controller
 
     public function __construct($class = 'Photo')
     {
+        apiMiddleware();
         $this->photo = $this->model('photo');
         $this->class = $class;
         header("Content-Type: application/json");

@@ -29,3 +29,10 @@ function isAdmin()
 {
     return (isset($_SESSION["role"]) && !empty($_SESSION["role"]) && $_SESSION["role"] == "admin");
 }
+
+function apiMiddleware(){
+	$url = explode('/',$_GET['url']);
+    if($url[0] != 'api'){
+        return redirect('/');
+    }
+}

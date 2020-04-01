@@ -6,6 +6,7 @@ class Dashboard extends Controller
 
     public function __construct()
     {
+        apiMiddleware();
         $this->page = $this->model('page');
         header('Content-Type: application/json');
         header("Access-Control-Allow-Origin: *");
@@ -13,7 +14,6 @@ class Dashboard extends Controller
 
     public function index()
     {
-
         echo json_encode($this->page->counter());
         return;
     }

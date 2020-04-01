@@ -7,6 +7,7 @@ class Emails extends Controller
 
     public function __construct()
     {
+        apiMiddleware();
         header('Content-Type: application/json');
         header("Access-Control-Allow-Origin: *");
         $this->email = $this->model('email');

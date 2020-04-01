@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/dist/css/tiny.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.1/tiny-slider.css" />
-    <link rel="stylesheet" href="./dist/css/imagehover.min.css" />
+    <link rel="stylesheet" href="/dist/css/imagehover.min.css" />
 </head>
 
 <body>

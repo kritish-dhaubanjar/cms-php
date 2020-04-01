@@ -5,6 +5,7 @@ class Feeds extends Controller
 
     public function __construct()
     {
+        apiMiddleware();
         $this->feed = $this->model('feed');
         header('Content-Type: application/json');
         header("Access-Control-Allow-Origin: *");

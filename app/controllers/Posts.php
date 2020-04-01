@@ -5,6 +5,7 @@ class Posts extends Controller
 
     public function __construct()
     {
+        apiMiddleware();
         $this->post = $this->model('post');
         header('Content-Type: application/json');
         header("Access-Control-Allow-Origin: *");

@@ -5,6 +5,7 @@ class Shares extends Controller
 
     public function __construct()
     {
+        apiMiddleware();
         $this->share = $this->model('share');
         header('Content-Type: application/json');
         header("Access-Control-Allow-Origin: *");

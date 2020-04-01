@@ -6,6 +6,7 @@ class Jobs extends Controller
 
     public function __construct()
     {
+        apiMiddleware();
         $this->job = $this->model('job');
         header('Content-Type: application/json');
         header("Access-Control-Allow-Origin: *");

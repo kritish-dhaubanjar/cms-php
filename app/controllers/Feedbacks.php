@@ -5,6 +5,7 @@ class Feedbacks extends Controller
 
     public function __construct()
     {
+        apiMiddleware();
         $this->feedback = $this->model('feedback');
         header('Content-Type: application/json');
         header("Access-Control-Allow-Origin: *");
