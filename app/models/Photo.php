@@ -1,5 +1,5 @@
 <?php
-class Photo extends Model
+class Photo
 {
     private $db;
 
