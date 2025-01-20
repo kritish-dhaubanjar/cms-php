@@ -1,12 +1,12 @@
 <?php
 class Photo extends Model
 {
-    // private $db;
+    private $db;
 
     public function __construct()
     {
-        // $this->db = new Database();
-        parent::__construct(__CLASS__);
+        $this->db = new Database();
+        //parent::__construct(__CLASS__);
     }
 
     public function paginate($page)
